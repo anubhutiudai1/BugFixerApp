@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Bug Fixer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #output {
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Code Bug Fixer</h2>
+    <p>Enter your code below and click Fix:</p>
+    <textarea id="inputCode" placeholder="Enter your code here..."></textarea>
+    <button onclick="fixCode()">Fix</button>
+    <div id="output">
+        <p id="outputText">Fixed code will appear here...</p>
+    </div>
+
+    <script>
+        function fixCode() {
+            var inputCode = document.getElementById('inputCode').value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/fix_code", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var fixedCode = xhr.responseText;
+                    document.getElementById('outputText').innerText = fixedCode;
+                }
+            };
+            xhr.send(JSON.stringify({ code: inputCode }));
+        }
+    </script>
+</body>
+</html>
